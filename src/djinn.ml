@@ -27,48 +27,30 @@
 
 module Djinn = struct 
 
-  type t = {
-    (* All the weights. *)
-    w : float array;
-    (* Hidden to output layer weights. *)
-    x : float array;
-    (* Biases. *)
-    b : float array;
-    (* Hidden layer. *)
-    h : float array;
-    (* Output layer. *)
-    o : float array;
-    (* Number of biases - always two - Tinn only supports a single hidden layer. *)
-    nb : int;
-    (* Number of weights. *)
-    nw : int;
-    (* Number of inputs. *)
-    nips : int;
-    (* Number of hidden neurons. *)
-    nhid : int;
-    (* Number of outputs. *)
-    nops : int;
-  }
+  type t
 
   external xtpredict : t -> float array -> t -> float array = "caml_xtpredict"
   (* float* xtpredict(Tinn, const float* in); *)
 
-  external xttrain : t -> float array -> float array -> float = "caml_xttrain"
+  external xttrain : t -> float array -> float array -> float -> float = "caml_xttrain"
   (* float xttrain(Tinn, const float* in, const float* tg, float rate); *)
+
 
   external xtbuild : int -> int -> int -> t = "caml_xtbuild"
   (* Tinn xtbuild(int nips, int nhid, int nops); *)
+  (*
+     external xtsave : t -> string = "caml_xtsave"
+     (* void xtsave(Tinn, const char* path); *)
 
-  external xtsave : t -> string = "caml_xtsave"
-  (* void xtsave(Tinn, const char* path); *)
-
-  external xtload : string -> t = "caml_xtload"
+     external xtload : string -> t = "caml_xtload" *)
   (* Tinn xtload(const char* path); *)
 
-  (* todo ? *)
+  external xtfree : t -> unit = "caml_xtfree"
   (* void xtfree(Tinn); *)
 
-  external xtprint : float array -> unit
+  external _xtprint : float array -> int -> unit = "caml_xtprint"
   (* void xtprint(const float* arr, const int size); *)
+
+  let xtprint m = _xtprint m (Array.length m)
 
 end

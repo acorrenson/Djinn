@@ -1,0 +1,13 @@
+(library
+  (name djinn)
+  (foreign_stubs
+    (language c)
+    (names djinn_stubs)
+    (flags -I./))
+  (c_library_flags (-L./src/tinn -ltinn))
+  (modules djinn))
+
+(executable
+  (name test)
+  (libraries djinn)
+  (modules test))
