@@ -1,9 +1,9 @@
 #define CAML_NAME_SPACE
-
 #include <caml/alloc.h>
 #include <caml/custom.h>
 #include <caml/memory.h>
 #include <caml/mlvalues.h>
+#include <stdio.h>
 #include <tinn/Tinn.h>
 
 /**
@@ -117,6 +117,19 @@ value caml_xtbuild(value nips, value nhid, value nops) {
   CAMLreturn(t);
 }
 
+value caml_xtsave(value t, value f) {
+  CAMLparam2(t, f);
+  xtsave(Tinn_val(t), String_val(f));
+  CAMLreturn(Val_unit);
+}
+
+value caml_xtload(value f) {
+  CAMLparam1(f);
+  value t = caml_alloc_custom(&tinn_ops, sizeof(Tinn), 0, 1);
+  Tinn_val(t) = xtload(String_val(f));
+  CAMLreturn(t);
+}
+
 /**
  * @brief Binding to xtfree
  *
@@ -125,5 +138,20 @@ value caml_xtbuild(value nips, value nhid, value nops) {
 value caml_xtfree(value t) {
   CAMLparam1(t);
   xtfree(Tinn_val(t));
+  CAMLreturn(Val_unit);
+}
+
+/**
+ * @brief Display constant fields of a Tinn object for debug
+ * purposes.
+ *
+ * @param t
+ * @return value
+ */
+value caml_nn_display(value t) {
+  CAMLparam1(t);
+  Tinn c_nn = Tinn_val(t);
+  printf("Nips: %d\nNops: %d\nNhid: %d\nNw: %d\n", c_nn.nips, c_nn.nops,
+         c_nn.nhid, c_nn.nw);
   CAMLreturn(Val_unit);
 }

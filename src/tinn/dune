@@ -1,9 +1,0 @@
-(rule
-  (target libtinn.o)
-  (deps Tinn.c)
-  (action (run gcc -c -o %{target} %{deps})))
-
-(rule
-  (target libtinn.a)
-  (deps libtinn.o)
-  (action (run ar rcs %{target} %{deps})))

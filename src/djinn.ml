@@ -1,5 +1,3 @@
-
-
 type t
 
 external xtpredict : t -> float array -> t -> float array = "caml_xtpredict"
@@ -12,16 +10,19 @@ external xttrain : t -> float array -> float array -> float -> float = "caml_xtt
 external xtbuild : int -> int -> int -> t = "caml_xtbuild"
 (* Tinn xtbuild(int nips, int nhid, int nops); *)
 
-(* external xtsave : t -> string = "caml_xtsave" *)
+external xtsave : t -> string -> unit = "caml_xtsave"
 (* void xtsave(Tinn, const char* path); *)
 
-(* external xtload : string -> t = "caml_xtload" *)
+external xtload : string -> t = "caml_xtload"
 (* Tinn xtload(const char* path); *)
 
 external xtfree : t -> unit = "caml_xtfree"
 (* void xtfree(Tinn); *)
 
+external nn_display : t -> unit = "caml_nn_display"
+
 external _xtprint : float array -> int -> unit = "caml_xtprint"
 (* void xtprint(const float* arr, const int size); *)
+
 
 let xtprint m = _xtprint m (Array.length m)

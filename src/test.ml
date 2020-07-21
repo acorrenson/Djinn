@@ -1,8 +1,8 @@
 open Djinn
 
-let () = Array.init 10 float_of_int
-         |> xtprint
+let nn = xtbuild 100 100 2
 
-let nn = xtbuild 256 300 2
-
-let () = xtfree nn
+let () =
+  xtsave nn "test.djinn";
+  xtfree nn;
+  xtload "test.djinn" |> nn_display
