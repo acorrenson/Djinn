@@ -11,3 +11,10 @@
   (name test)
   (libraries djinn)
   (modules test))
+
+
+
+(rule
+  (target libtinn.a)
+  (deps tinn/libtinn.a)
+  (action (copy tinn/libtinn.a %{target})))
